@@ -7,11 +7,12 @@ We often consider the most important things first, also learning Haskell via its
 My goal is to delay as much as possible the use of values and expressions (such as numbers, caracters, booleans but also all constructors and
 functions) while staying clear and concise.
 
-
-
 ## What are types?
-Types are _spaces_, types represent things, in term of values, that exists not things that don't or can't exist. For example, the type *Integer*
-represents all the whole numbers but not the real numbers or strings or graphs, or emails, and so on.
+Types are **spaces**, they represent things - in term of values - that exists.
+Type don't represent things that don't or can't exist.
+For example, the type *Integer* represents all the whole numbers but not the real numbers or strings or graphs, or emails, etc.
 
-Each time you declare a type make sur that it cans represent _only_ the meaningful values, not more, not less. If you create an *Email* type, make
-sure that it's a well-formed Email, not a lambda String supposed to be an Email.
+Each time you declare a type, make sure that it cans represent **only** the meaningful values, not more, not less.
+If you create an *Email* type, it should only hold a well-formed Email, not any Strings supposed to be an Email.
+
+
