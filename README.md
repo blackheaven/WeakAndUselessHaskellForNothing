@@ -15,17 +15,17 @@ For example, the type *Integer* represents all the whole numbers but not the rea
 Each time you declare a type, make sure it is able to **only** represent meaningful values, not more, not less.
 If you create an *Email* type, it should only hold a well-formed Email, not any Strings supposed to be an Email.
 
-### Types's genesis
+### Types' genesis
 
 Here are the two ways to declare new types:
 
 ```haskell
-    data A
-    newtype B
+data A
+newtype B
 ```
 
 ``data A`` create an [Algebraic data type](#algebraic-data-types) named *A*.
 
 ``newtype B`` allows the compiler to distinguish some values of an existing type.
-The original type and the new type -named *B*- have the same values but these values are either of the original type or of the new type.
-Types are differents even if they hold the same values.
+The original type and the new type -named *B*- have same values but these values are either of original type or of new type.
+Types are differents even if they hold same values.
