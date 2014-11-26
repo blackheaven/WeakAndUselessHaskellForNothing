@@ -10,10 +10,10 @@ functions) while staying clear and concise.
 ## What are types?
 Types are **spaces**, they represent existing things - in term of values.
 Types must not represent outlier values.
-For example, the type *Integer* represents all the whole numbers but not the real numbers or strings or graphs, or emails, etc.
+For example, the type ``Integer`` represents all the whole numbers but not the real numbers or strings or graphs, or emails, etc.
 
 Each time you declare a type, make sure it is able to **only** represent meaningful values, not more, not less.
-If you create an *Email* type, it should only hold a well-formed Email, not any Strings supposed to be an Email.
+If you create an ``Email`` type, it should only hold a well-formed Email, not any Strings supposed to be an Email.
 
 ### Types' genesis
 
