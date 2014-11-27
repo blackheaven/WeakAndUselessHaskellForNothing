@@ -51,11 +51,10 @@ Prelude> data E a b
 Prelude> :k E
 E :: * -> * -> *
 ```
-``:k`` is the command to print the *Kind* of a type.
-``A`` is concrete and its *Kind* is ``*``.
 
-However ``C``, ``D``, and ``E`` are parametrized their *Kind* are a ``*`` preceded by as many ``* ->`` as they have parameters.
-Providing types to these kinds of types change their *Kind*:
+The command ``:k`` prints the *Kind* of an type expression.
+For example the *Kind* of ``A`` is ``*`` meaning it is concrete while parameterized types' *Kind* of ``C``, ``D``, and ``E`` are a ``*`` preceded by as many ``* ->`` as they have parameters.
+Providing types to parameterized types change their *Kind*:
 
 ```haskell
 Prelude> :k E A
@@ -63,13 +62,12 @@ E A :: * -> *
 Prelude> :k E A A
 E A A :: *
 ```
-Placing a type -``A`` here- after an other is called **applying a type**.
-Applying a type changes the *Kind* which need of one less parameter.
-So we need to apply two types to ``E`` to have a concrete type.
+**Applying a type**, by adding a type after an other, changes the *Kind* which needs of one less parameter.
+Applying two types ``A`` to ``E`` make it a concrete type.
 
-They are different types of *Kinds* and each time you apply a type this type have to have the right *Kind*.
+Type application enforces the *Kind* of the applied type.
 For example ``E`` needs two concrete types and ``A`` is one of them.
-But if we try to apply a parameterized type, we get an error:
+We can't apply a parameterized type when a concrete type is needed:
 
 ```haskell
 Prelude> :k E D
@@ -82,7 +80,7 @@ Prelude> :k E D
 
 ```
 
-An expected *Kind* can be filled with either a type with the right *Kind* -like ``A``- or a type-expression having the right *Kind* -like ``C A``, ``D A A``, and so on.
+Types and types expression, with the same *Kind*, fill without distinction any type parameters with this expected *Kind*.
 The following type is valid:
 
 ```haskell
