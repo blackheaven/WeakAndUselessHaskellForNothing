@@ -87,3 +87,43 @@ The following type is valid:
 Prelude> :k E (C A) (D A (E A A))
 E (C A) (D A (E A A)) :: *
 ```
+
+## Algebraic data-types
+Types are spaces, they are composable via two operations:
+
+
+* ``Sum``: the resulting space is the sum of its components's space. Only one of its parametric types set the space at a time.
+* ``Product``: the resulting space is the product of its components's space. Both of its parametric types set the space, everytime.
+
+Here are their definition:
+```haskell
+data Sum a b
+data Product a b
+```
+``Sum`` is often called ``(,)`` and ``Product`` is often called ``Either``.
+
+Apart these operations there are also type-level values:
+
+* ``Void``: it holds one value, its space is equal to one
+* ``Identity``: it holds the same space of its parametric type, like ``newtype``.
+
+Here are their definition:
+```haskell
+data Void
+data Identity a
+```
+``Void`` is often called ``()``.
+
+Here are some examples of the evolution of space during composition:
+```haskell
+Product Void Void
+-- Resulting space = 1 (1 from Void * 1 from Void)
+Sum Void Void
+-- Resulting space = 2 (1 from Void + 1 from Void)
+Product a Void
+-- Resulting space = 1 * a's space
+Sum a Void
+-- Resulting space = a's space + 1
+Product (Sum Void (Sum Void Void)) (Sum Void Void)
+-- Resulting space = (1 + (1 + 1)) * (1 + 1) = 3 * 2 = 6
+```
