@@ -27,7 +27,7 @@ newtype B
 ``data A`` create an [Algebraic data type](#algebraic-data-types) named ``A``.
 
 ``newtype B`` allows the compiler to distinguish some values of an existing type.
-The original type and the new type -named ``B``- have same values but these values are either of original type or of new type.
+The original type and the new type, named ``B``, have same values but these values are either of original type or of new type.
 Types are differents even if they hold same values.
 
 ## Kinds of types and Kinds
