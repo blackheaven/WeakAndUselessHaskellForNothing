@@ -104,26 +104,28 @@ data Product a b
 
 Apart these operations there are also type-level values:
 
-* ``Void``: it holds one value, its space is equal to one
+* ``Void``: it holds no value, its space is empty.
+* ``Unit``: it holds one value, its space is equal to one.
 * ``Identity``: it holds the same space of its parametric type, like ``newtype``.
 
 Here are their definition:
 ```haskell
 data Void
+data Unit
 data Identity a
 ```
-``Void`` is often called ``()``.
+``Unit`` is often called ``()``.
 
 Here are some examples of the evolution of space during composition:
 ```haskell
-Product Void Void
--- Resulting space = 1 (1 from Void * 1 from Void)
-Sum Void Void
--- Resulting space = 2 (1 from Void + 1 from Void)
-Product a Void
+Product Unit Unit
+-- Resulting space = 1 (1 from Unit * 1 from Unit)
+Sum Unit Unit
+-- Resulting space = 2 (1 from Unit + 1 from Unit)
+Product a Unit
 -- Resulting space = 1 * a's space
-Sum a Void
+Sum a Unit
 -- Resulting space = a's space + 1
-Product (Sum Void (Sum Void Void)) (Sum Void Void)
+Product (Sum Unit (Sum Unit Unit)) (Sum Unit Unit)
 -- Resulting space = (1 + (1 + 1)) * (1 + 1) = 3 * 2 = 6
 ```
