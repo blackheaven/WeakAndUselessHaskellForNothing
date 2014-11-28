@@ -141,6 +141,54 @@ And True True :: *
 = True
 ```
 
+### Kinds creating and enforcing
+The definition of ``And`` is weak, it possible to apply a non-``Boolean`` type
+and get a non-``Boolean`` as resulting type:
+```haskell
+Prelude> :kind! And True A
+And True A :: *
+= A
+```
+
+The solution is to create a new *Kind* that only holds ``True`` and ``False``,
+then enforce it at *type family* level.
+
+To create a new *Kind*, we define a value-level
+[Algebraic data type](#algebraic-data-types) with two values:
+```haskell
+data Bool = True | False
+```
+
+We indicate the *Kind* of each parametric type of the *type family* and leave
+the rest unchanged:
+```haskell
+type family And (a :: Bool) (b :: Bool) :: Bool where
+  And True  d     = d
+  And False c     = False
+```
+
+We are able to use [Algebraic data type](#algebraic-data-types) values, also
+called *constructors*, at type-level.
+
+We are now only able to manipulate ``Booleans`` with this *type family*:
+```haskell
+*Main> :kind! And True True
+And True True :: Bool
+= 'True
+*Main> :kind! And True False
+And True False :: Bool
+= 'False
+*Main> :kind! And False True
+And False True :: Bool
+= 'False
+*Main> :kind! And False A
+
+<interactive>:1:11:
+    The second argument of ‘And’ should have kind ‘Bool’,
+      but ‘A’ has kind ‘*’
+    In a type in a GHCi command: And False A
+```
+
 ## Algebraic data-types
 Types are spaces, they are composable via two operations:
 
