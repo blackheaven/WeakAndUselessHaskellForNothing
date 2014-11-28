@@ -8,7 +8,7 @@ My goal is to delay as much as possible the use of values and expressions (such 
 functions) while staying clear and concise.
 
 ## What are types?
-Types are **spaces**, they represent existing things in term of values.
+Types are *spaces*, they represent existing things in term of values.
 Types must not represent outlier values.
 For example, the type ``Integer`` represents all the whole numbers but not the real numbers or strings or graphs, or emails, etc.
 
@@ -62,7 +62,7 @@ E A :: * -> *
 Prelude> :k E A A
 E A A :: *
 ```
-**Applying a type**, by adding a type after an other, changes the *Kind* which needs of one less parameter.
+*Applying a type*, by adding a type after an other, changes the *Kind* which needs of one less parameter.
 Applying two types ``A`` to ``E`` make it a concrete type.
 
 Type application enforces the *Kind* of the applied type.
