@@ -118,7 +118,7 @@ MapSnd E (Double E A) (D A) :: *
 ```
 
 *Type families* allow us to do operations on types, such as comparisons, called *pattern matching*.
-Here is an implementation of the boolean operator ``And`:`
+Here is an implementation of the ``Boolean`` operator ``And``:
 ```haskell
 data True
 data False
