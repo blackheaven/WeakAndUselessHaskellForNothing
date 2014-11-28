@@ -159,13 +159,11 @@ Apart these operations there are also type-level values:
 
 * ``Void``: it holds no value, its space is empty.
 * ``Unit``: it holds one value, its space is equal to one.
-* ``Identity``: it holds the same space of its parametric type, like ``newtype``.
 
 Here are their definition:
 ```haskell
 data Void
 data Unit
-data Identity a
 ```
 ``Unit`` is often called ``()``.
 
@@ -182,3 +180,4 @@ Sum a Unit
 Product (Sum Unit (Sum Unit Unit)) (Sum Unit Unit)
 -- Resulting space = (1 + (1 + 1)) * (1 + 1) = 3 * 2 = 6
 ```
+
