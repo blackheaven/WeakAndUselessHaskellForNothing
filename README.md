@@ -88,6 +88,59 @@ Prelude> :k E (C A) (D A (E A A))
 E (C A) (D A (E A A)) :: *
 ```
 
+### Types manipulation
+Type expressions are sometimes complex and deface type's intent.
+
+*Types functions* create an other way to call the same type expression.
+Spaces and types remain unchanged.
+
+Here are some examples:
+```
+Prelude> :k E (E A A) (D A (E A A))
+E (E A A) (D A (E A A)) :: *
+Prelude> type Eaa = E A A
+Prelude> :kind! E Eaa (D A Eaa)
+E Eaa (D A Eaa) :: *
+= E (E A A) (D A (E A A))
+Prelude> type Double e a = e a a
+Prelude> :kind! E (Double E A) (D A (Double E A))
+E (Double E A) (D A (Double E A)) :: *
+= E (E A A) (D A (E A A))
+Prelude> type Ead = Double E A
+Prelude> :kind! E Ead (D A Ead)
+E Ead (D A Ead) :: *
+= E (E A A) (D A (E A A))
+Prelude> type MapSnd x a f = x a (f a)
+Prelude> :kind! MapSnd E (Double E A) (D A)
+MapSnd E (Double E A) (D A) :: *
+= E (E A A) (D A (E A A))
+
+```
+
+*Type families* allow us to do operations on types, such as comparisons, called *pattern matching*.
+Here is an implementation of the boolean operator ``And`:`
+```haskell
+data True
+data False
+
+type family And a b where
+  And True  d     = d
+  And False c     = False
+```
+
+Play with it:
+```haskell
+Prelude> :kind! And True False
+And True False :: *
+= False
+Prelude> :kind! And True False
+And True False :: *
+= False
+Prelude> :kind! And True True
+And True True :: *
+= True
+```
+
 ## Algebraic data-types
 Types are spaces, they are composable via two operations:
 
