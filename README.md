@@ -244,3 +244,22 @@ Product (Sum Unit (Sum Unit Unit)) (Sum Unit Unit)
 -- Resulting space = (1 + (1 + 1)) * (1 + 1) = 3 * 2 = 6
 ```
 
+## Maybe: ability to (not) have a type
+The possibility to don't have a type is represented by ``Maybe``:
+```haskell
+data IsMaybe = Just | Nothing
+
+type family Maybe v a where
+  Maybe Just    x = x
+  Maybe Nothing x = Void
+```
+
+An alternative of this implementation is to use ``Product``:
+```haskell
+type Just = Right
+type Nothing = Left
+type Maybe v x = Product v Void x
+```
+
+This one avoid the creation a new *Kind* and of new types, it decreases
+type-safety but improves the reusability.
