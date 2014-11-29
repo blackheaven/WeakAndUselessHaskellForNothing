@@ -190,6 +190,7 @@ Prelude> :kind! And False A
 ```
 
 ## Algebraic data-types
+### Operations
 Types are spaces, they are composable via two operations:
 
 * ``Sum``: the resulting space is the sum of its components's space. Only one of its parametric types set the space at a time.
@@ -218,6 +219,7 @@ Product Right A B :: *
 = B
 ```
 
+### Values
 Apart these operations there are also type-level values:
 
 * ``Void``: it holds no value, its space is empty.
