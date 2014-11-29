@@ -192,16 +192,28 @@ Prelude> :kind! And False A
 ## Algebraic data-types
 Types are spaces, they are composable via two operations:
 
-
 * ``Sum``: the resulting space is the sum of its components's space. Only one of its parametric types set the space at a time.
 * ``Product``: the resulting space is the product of its components's space. Both of its parametric types set the space, everytime.
 
 Here are their definition:
 ```haskell
 data Sum a b
-data Product a b
+
+data Branch = Left | Right
+type family Product v a b where
+  Product Left  l r = l
+  Product Right l r = r
 ```
 ``Sum`` is often called ``(,)`` and ``Product`` is often called ``Either``.
+
+```haskell
+Prelude> :kind! Product Left A B
+Product Left A B :: *
+= A
+Prelude> :kind! Product Right A B
+Product Right A B :: *
+= B
+```
 
 Apart these operations there are also type-level values:
 
