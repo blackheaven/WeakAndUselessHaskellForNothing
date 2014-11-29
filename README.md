@@ -172,16 +172,16 @@ called *constructors*, at type-level.
 
 We are now only able to manipulate ``Booleans`` with this *type family*:
 ```haskell
-*Main> :kind! And True True
+Prelude> :kind! And True True
 And True True :: Bool
 = 'True
-*Main> :kind! And True False
+Prelude> :kind! And True False
 And True False :: Bool
 = 'False
-*Main> :kind! And False True
+Prelude> :kind! And False True
 And False True :: Bool
 = 'False
-*Main> :kind! And False A
+Prelude> :kind! And False A
 
 <interactive>:1:11:
     The second argument of ‘And’ should have kind ‘Bool’,
