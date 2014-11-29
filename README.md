@@ -205,6 +205,9 @@ type family Product v a b where
   Product Right l r = r
 ```
 ``Sum`` is often called ``(,)`` and ``Product`` is often called ``Either``.
+``Product`` is just a cartesian product of spaces.
+``Sum`` is more complicated because we need to check the selected type and *types families* do the job well.
+Let's try:
 
 ```haskell
 Prelude> :kind! Product Left A B
