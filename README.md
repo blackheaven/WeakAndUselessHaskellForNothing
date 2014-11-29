@@ -219,6 +219,64 @@ Product Right A B :: *
 = B
 ```
 
+#### Kind polymorphism
+Our previous declaration of ``Product`` doesn't precise the *Kinds*, let's see
+what *Kinds* are deduced by the compiler:
+
+```haskell
+Prelude> data A
+Prelude> data B
+Prelude> data C a
+Prelude> :kind! Product Left A B
+Product Left A B :: *
+= A
+Prelude> :kind! Product Right A B
+Product Right A B :: *
+= B
+Prelude> :kind! Product Right A C
+
+<interactive>:1:17:
+    Expecting one more argument to ‘C’
+    The third argument of ‘Product’ should have kind ‘*’,
+      but ‘C’ has kind ‘* -> *’
+    In a type in a GHCi command: Product Right A C
+```
+
+By default the compiler infers the '*' *Kind*, to change that we have to use
+*Kind polymorphism*:
+
+```haskell
+data Branch = Left | Right
+
+type family Product (v :: Branch) (a :: k) (b :: k) :: k where
+  Product Left  l r = l
+  Product Right l r = r
+```
+
+Let's see what happen:
+
+```haskell
+Prelude> :kind! Product Left A B
+Product Left A B :: *
+= A
+Prelude> :kind! Product Right A B
+Product Right A B :: *
+= B
+Prelude> :kind! Product Right C D
+Product Right C D :: * -> *
+= D
+Prelude> :kind! Product Right C B
+
+<interactive>:1:17:
+    The third argument of ‘Product’ should have kind ‘* -> *’,
+      but ‘B’ has kind ‘*’
+    In a type in a GHCi command: Product Right C B
+```
+
+
+We aren't able to mix up *Kinds*.
+*Kind polymorphism* act like parameterized types: it forces the *Kind* unicity.
+
 ### Values
 Apart these operations there are also type-level values:
 
