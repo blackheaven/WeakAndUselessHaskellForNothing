@@ -323,3 +323,42 @@ type Maybe v x = Product v Void x
 
 This one avoid the creation a new *Kind* and of new types, it decreases
 type-safety but improves the reusability.
+
+## Parametric types manipulation
+Our [``Product``](#algebraic-data-types) type forces its types to have the same
+*Kind*:
+```haskell
+Prelude> :kind! Product Left A C
+
+<interactive>:1:16:
+    Expecting one more argument to ‘C’
+    The third argument of ‘Product’ should have kind ‘*’,
+      but ‘C’ has kind ‘* -> *’
+    In a type in a GHCi command: Product Left A C
+```
+
+### Const: add one
+We can add a parametric just to match the expected *Kind* and do nothing with it:
+```haskell
+type Const t a = t
+```
+
+Our ``Product`` type works again:
+```haskell
+Prelude> :kind! Product Left (Const A) C
+Product Left (Const A) C :: * -> *
+= Const A
+```
+
+### Flip: change the order
+We are also able to change the order of any ``Product`` type:
+```haskell
+type Flip t a b = t b a
+```
+
+Applied to ``Product``:
+```haskell
+Prelude> :kind! Flip (Product Right) A B
+Flip (Product Right) A B :: *
+= A
+```
