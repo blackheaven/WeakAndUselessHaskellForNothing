@@ -154,7 +154,8 @@ And True A :: *
 = A
 ```
 
-The solution is to create a new *Kind* that only holds ``True`` and ``False``,
+We need to create a new *Kind* which only holds ``True`` and ``False`` and
+enforce it at *type family* level.
 then enforce it at *type family* level.
 
 To create a new *Kind*, we define a value-level
