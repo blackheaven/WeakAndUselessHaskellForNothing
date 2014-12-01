@@ -53,7 +53,10 @@ E :: * -> * -> *
 ```
 
 The command ``:k`` prints the *Kind* of an type expression.
-For example the *Kind* of ``A`` is ``*`` meaning it is concrete while parameterized types' *Kind* of ``C``, ``D``, and ``E`` are a ``*`` preceded by as many ``* ->`` as they have parameters.
+For example the *Kind* of ``A`` is ``*`` meaning it is concrete.
+While the *Kind* of parameterized types -like ``C``, ``D``, and ``E``-
+are a ``*`` preceded by as many ``* ->`` as they have parameters.
+
 Providing types to parameterized types change their *Kind*:
 
 ```haskell
@@ -62,12 +65,13 @@ E A :: * -> *
 Prelude> :k E A A
 E A A :: *
 ```
-*Applying a type*, by adding a type after an other, changes the *Kind* which needs of one less parameter.
+*Applying a type*, by adding a type after an other, changes the *Kind* which
+needs of one less parameter.
 Applying two types ``A`` to ``E`` make it a concrete type.
 
 Type application enforces the *Kind* of the applied type.
 For example ``E`` needs two concrete types and ``A`` is one of them.
-We can't apply a parameterized type when a concrete type is needed:
+We aren't able to apply a parameterized type when a concrete type is needed:
 
 ```haskell
 Prelude> :k E D
