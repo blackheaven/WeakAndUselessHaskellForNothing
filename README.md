@@ -247,7 +247,7 @@ Prelude> :kind! Product Right A C
     In a type in a GHCi command: Product Right A C
 ```
 
-By default the compiler infers the '*' *Kind*, to change that we have to use
+The compiler infers the ``*`` *Kind*, in order to change that we have to use
 *Kind polymorphism*:
 
 ```haskell
