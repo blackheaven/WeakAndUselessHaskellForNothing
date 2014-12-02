@@ -367,3 +367,33 @@ Prelude> :kind! Flip (Product Right) A B
 Flip (Product Right) A B :: *
 = A
 ```
+
+#### Currying and partial application
+Each time you apply a type to a parameterized type its
+[*Kind* changes](#kinds-of-types-and-kinds).
+A parameterized type take only one parametric type and generate either a
+concrete type or an other parameterized type.
+Multi-parameterized types are a syntactic sugar:
+```haskell
+Prelude> :k D
+D :: * -> * -> *
+Prelude> :k D A
+D A :: * -> *
+Prelude> :k D A B
+D A B :: *
+Prelude> :k C
+C :: * -> *
+Prelude> type C' = C
+Prelude> :k C'
+C' :: * -> *
+```
+
+It can also be parenthesized:
+```haskell
+Prelude> :k D
+D :: * -> (* -> *)
+Prelude> :k D A B
+(D A) B :: *
+```
+
+Partial application is the generation of a parameterized type resulting of the application of a strict subset of its parameters.
