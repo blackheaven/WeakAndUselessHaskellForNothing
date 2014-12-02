@@ -397,3 +397,34 @@ Prelude> :k D A B
 ```
 
 Partial application is the generation of a parameterized type resulting of the application of a strict subset of its parameters.
+## Indexed structures
+Parameterized types take an arbitrary number of various types.
+*Indexed structures* fill the same goal: providing a flexible way to manage a
+set of types.
+
+### ``List``s
+#### Structure
+A list is a [``Sum``](#algebraic-data-types) type of a list-ending and
+a [``Product``](#algebraic-data-types) type of an element and an other list,
+the next element:
+```haskell
+type Cons (e :: k1) (n :: k2) = Product e n
+type End = Void
+
+Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) End))))
+Cons A (Cons B (Cons C (Cons D (Cons (E A) End)))) :: *
+= Product
+    A (Product B (Product C (Product D (Product (E A) Void))))
+```
+
+An alternative with [``Maybe``](#algebraic-data-types):
+```haskell
+type Cons e n = Maybe Just (Product e n)
+type End = Nothing
+
+Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) End))))
+Cons A (Cons B (Cons C (Cons D (Cons (E A) End)))) :: *
+= forall (k :: BOX) (k :: BOX) (k :: BOX) (k :: BOX).
+  Product
+    A (Product B (Product C (Product D (Product (E A) 'Nothing))))
+```
