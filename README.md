@@ -203,48 +203,48 @@ Types are spaces, they are composable via two operations:
 
 Here are their definition:
 ```haskell
-data Sum a b
+data Product a b
 
 data Branch = Left | Right
-type family Product v a b where
-  Product Left  l r = l
-  Product Right l r = r
+type family Sum v a b where
+  Sum Left  l r = l
+  Sum Right l r = r
 ```
-``Sum`` is often called ``(,)`` and ``Product`` is often called ``Either``.
-``Product`` is just a cartesian product of spaces.
+``Product`` is often called ``(,)`` and ``Sum`` is often called ``Either``.
+``Product`` is a cartesian product of spaces.
 ``Sum`` is more complicated because we need to check the selected type and *types families* do the job well.
 Let's try:
 
 ```haskell
-Prelude> :kind! Product Left A B
-Product Left A B :: *
+Prelude> :kind! Sum Left A B
+Sum Left A B :: *
 = A
-Prelude> :kind! Product Right A B
-Product Right A B :: *
+Prelude> :kind! Sum Right A B
+Sum Right A B :: *
 = B
 ```
 
 #### Kind polymorphism
-Our previous declaration of ``Product`` doesn't precise the *Kinds*, let's see
+Our previous declaration of ``Sum`` doesn't precise the *Kinds*, let's see
 what *Kinds* are deduced by the compiler:
 
 ```haskell
 Prelude> data A
 Prelude> data B
 Prelude> data C a
-Prelude> :kind! Product Left A B
-Product Left A B :: *
+Prelude> :kind! Sum Left A B
+Sum Left A B :: *
 = A
-Prelude> :kind! Product Right A B
-Product Right A B :: *
+Prelude> :kind! Sum Right A B
+Sum Right A B :: *
 = B
-Prelude> :kind! Product Right A C
+Prelude> :kind! Sum Right A C
 
 <interactive>:1:17:
     Expecting one more argument to ‘C’
-    The third argument of ‘Product’ should have kind ‘*’,
+    The third argument of ‘Sum’ should have kind ‘*’,
       but ‘C’ has kind ‘* -> *’
-    In a type in a GHCi command: Product Right A C
+    In a type in a GHCi command: Sum Right A C
 ```
 
 The compiler infers the ``*`` *Kind*, in order to change that we have to use
@@ -253,29 +253,29 @@ The compiler infers the ``*`` *Kind*, in order to change that we have to use
 ```haskell
 data Branch = Left | Right
 
-type family Product (v :: Branch) (a :: k) (b :: k) :: k where
-  Product Left  l r = l
-  Product Right l r = r
+type family Sum (v :: Branch) (a :: k) (b :: k) :: k where
+  Sum Left  l r = l
+  Sum Right l r = r
 ```
 
 Let's see what happen:
 
 ```haskell
-Prelude> :kind! Product Left A B
-Product Left A B :: *
+Prelude> :kind! Sum Left A B
+Sum Left A B :: *
 = A
-Prelude> :kind! Product Right A B
-Product Right A B :: *
+Prelude> :kind! Sum Right A B
+Sum Right A B :: *
 = B
-Prelude> :kind! Product Right C D
-Product Right C D :: * -> *
+Prelude> :kind! Sum Right C D
+Sum Right C D :: * -> *
 = D
-Prelude> :kind! Product Right C B
+Prelude> :kind! Sum Right C B
 
 <interactive>:1:17:
-    The third argument of ‘Product’ should have kind ‘* -> *’,
+    The third argument of ‘Sum’ should have kind ‘* -> *’,
       but ‘B’ has kind ‘*’
-    In a type in a GHCi command: Product Right C B
+    In a type in a GHCi command: Sum Right C B
 ```
 
 
@@ -330,16 +330,16 @@ This one avoid the creation a new *Kind* and of new types, it decreases
 type-safety but improves the reusability.
 
 ## Parametric types manipulation
-Our [``Product``](#algebraic-data-types) type forces its types to have the same
+Our [``Sum``](#algebraic-data-types) type forces its types to have the same
 *Kind*:
 ```haskell
-Prelude> :kind! Product Left A C
+Prelude> :kind! Sum Left A C
 
 <interactive>:1:16:
     Expecting one more argument to ‘C’
-    The third argument of ‘Product’ should have kind ‘*’,
+    The third argument of ‘Sum’ should have kind ‘*’,
       but ‘C’ has kind ‘* -> *’
-    In a type in a GHCi command: Product Left A C
+    In a type in a GHCi command: Sum Left A C
 ```
 
 ### Const: add one
@@ -348,23 +348,23 @@ We can add a parametric just to match the expected *Kind* and do nothing with it
 type Const t a = t
 ```
 
-Our ``Product`` type works again:
+Our ``Sum`` type works again:
 ```haskell
-Prelude> :kind! Product Left (Const A) C
-Product Left (Const A) C :: * -> *
+Prelude> :kind! Sum Left (Const A) C
+Sum Left (Const A) C :: * -> *
 = Const A
 ```
 
 ### Flip: change the order
-We are also able to change the order of any ``Product`` type:
+We are also able to change the order of any ``Sum`` type:
 ```haskell
 type Flip t a b = t b a
 ```
 
-Applied to ``Product``:
+Applied to ``Sum``:
 ```haskell
-Prelude> :kind! Flip (Product Right) A B
-Flip (Product Right) A B :: *
+Prelude> :kind! Flip (Sum Right) A B
+Flip (Sum Right) A B :: *
 = A
 ```
 
