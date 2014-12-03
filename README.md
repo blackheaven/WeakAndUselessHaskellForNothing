@@ -191,6 +191,7 @@ Prelude> :kind! And False A
       but ‘A’ has kind ‘*’
     In a type in a GHCi command: And False A
 ```
+``Bool`` is a new *Kind*, as ``*`` and ``* -> *``.
 
 ## Algebraic data-types
 ### Operations
