@@ -224,21 +224,15 @@ Right C :: Sum k (* -> *)
 = forall (k :: BOX). 'Right C
 ```
 
-#### Kind polymorphism
-Our previous declaration of ``Sum`` doesn't precise the *Kinds*, let's see
-what *Kinds* are deduced by the compiler:
+#### Sorts and Kind polymorphism
+Every *Kind* have the same Sor*t named* BOX, a *Sort* is a type of *Kind*.
+All the Kinds are not equals.
 
+We can't use a type of a Kind when an other is expected:
 ```haskell
-Prelude> data A
-Prelude> data B
-Prelude> data C a
-Prelude> :kind! Sum Left A B
-Sum Left A B :: *
-= A
-Prelude> :kind! Sum Right A B
-Sum Right A B :: *
-= B
-Prelude> :kind! Sum Right A C
+Prelude> :k Product
+Product :: * -> * -> *
+Prelude> :k Product A C
 
     Expecting one more argument to ‘C’
     The second argument of ‘Product’ should have kind ‘*’,
@@ -246,36 +240,22 @@ Prelude> :kind! Sum Right A C
     In a type in a GHCi command: Product A C
 ```
 
-The compiler infers the ``*`` *Kind*, in order to change that we have to use
-*Kind polymorphism*:
-
+The compiler infers a ``*`` *Kind* by default.
+To change this, we have to specify that we accept all the *Kinds*:
 ```haskell
 data Product (a :: k0) (b :: k1)
 Prelude> :k Product A C
 Product A C :: *
 ```
 
-Let's see what happen:
-
+We are also able to declare cross-parametric constraints:
 ```haskell
-Prelude> :kind! Sum Left A B
-Sum Left A B :: *
-= A
-Prelude> :kind! Sum Right A B
-Sum Right A B :: *
-= B
-Prelude> :kind! Sum Right C D
-Sum Right C D :: * -> *
-= D
-Prelude> :kind! Sum Right C B
-
-    The third argument of ‘Sum’ should have kind ‘* -> *’,
-      but ‘B’ has kind ‘*’
-    In a type in a GHCi command: Sum Right C B
+type Application (t :: k0 -> k) (a :: k0) = t a
+Prelude> :kind! Application C A
+Application C A :: *
+= C A
 ```
 
-
-We aren't able to mix up *Kinds*.
 *Kind polymorphism* act like parameterized types: it forces the *Kind* unicity.
 
 ### Values
