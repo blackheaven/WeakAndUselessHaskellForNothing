@@ -76,7 +76,6 @@ We aren't able to apply a parameterized type when a concrete type is needed:
 ```haskell
 Prelude> :k E D
 
-<interactive>:1:3:
     Expecting two more arguments to ‘D’
     The first argument of ‘E’ should have kind ‘*’,
       but ‘D’ has kind ‘* -> * -> *’
@@ -188,7 +187,6 @@ And False True :: Bool
 = 'False
 Prelude> :kind! And False A
 
-<interactive>:1:11:
     The second argument of ‘And’ should have kind ‘Bool’,
       but ‘A’ has kind ‘*’
     In a type in a GHCi command: And False A
@@ -240,7 +238,6 @@ Sum Right A B :: *
 = B
 Prelude> :kind! Sum Right A C
 
-<interactive>:1:17:
     Expecting one more argument to ‘C’
     The third argument of ‘Sum’ should have kind ‘*’,
       but ‘C’ has kind ‘* -> *’
@@ -272,7 +269,6 @@ Sum Right C D :: * -> *
 = D
 Prelude> :kind! Sum Right C B
 
-<interactive>:1:17:
     The third argument of ‘Sum’ should have kind ‘* -> *’,
       but ‘B’ has kind ‘*’
     In a type in a GHCi command: Sum Right C B
@@ -335,7 +331,6 @@ Our [``Sum``](#algebraic-data-types) type forces its types to have the same
 ```haskell
 Prelude> :kind! Sum Left A C
 
-<interactive>:1:16:
     Expecting one more argument to ‘C’
     The third argument of ‘Sum’ should have kind ‘*’,
       but ‘C’ has kind ‘* -> *’
