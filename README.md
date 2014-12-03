@@ -98,7 +98,7 @@ Type expressions are sometimes complex and deface type's intent.
 Spaces and types remain unchanged.
 
 Here are some examples:
-```
+```haskell
 Prelude> :k E (E A A) (D A (E A A))
 E (E A A) (D A (E A A)) :: *
 Prelude> type Eaa = E A A
