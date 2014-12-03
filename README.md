@@ -228,7 +228,7 @@ Right C :: Sum k (* -> *)
 Every *Kind* have the same *Sort* named *BOX*, a *Sort* is a type of *Kind*.
 All the *Kinds* are not equals.
 
-We can't use a type of a Kind when an other is expected:
+We can't use a type of a *Kind* when an other is expected:
 ```haskell
 Prelude> :k Product
 Product :: * -> * -> *
