@@ -205,23 +205,23 @@ Here are their definition:
 ```haskell
 data Product a b
 
-data Branch = Left | Right
-type family Sum v a b where
-  Sum Left  l r = l
-  Sum Right l r = r
+data Sum a b = Left a | Right b
 ```
 ``Product`` is often called ``(,)`` and ``Sum`` is often called ``Either``.
 ``Product`` is a cartesian product of spaces.
-``Sum`` is more complicated because we need to check the selected type and *types families* do the job well.
+``Sum`` is a new *Kind*.
 Let's try:
 
 ```haskell
-Prelude> :kind! Sum Left A B
-Sum Left A B :: *
-= A
-Prelude> :kind! Sum Right A B
-Sum Right A B :: *
-= B
+Prelude> :kind! Left A
+Left A :: Sum * k
+= forall (k :: BOX). 'Left A
+Prelude> :kind! Right B
+Right B :: Sum k *
+= forall (k :: BOX). 'Right B
+Prelude> :kind! Right C
+Right C :: Sum k (* -> *)
+= forall (k :: BOX). 'Right C
 ```
 
 #### Kind polymorphism
@@ -241,20 +241,18 @@ Sum Right A B :: *
 Prelude> :kind! Sum Right A C
 
     Expecting one more argument to ‘C’
-    The third argument of ‘Sum’ should have kind ‘*’,
+    The second argument of ‘Product’ should have kind ‘*’,
       but ‘C’ has kind ‘* -> *’
-    In a type in a GHCi command: Sum Right A C
+    In a type in a GHCi command: Product A C
 ```
 
 The compiler infers the ``*`` *Kind*, in order to change that we have to use
 *Kind polymorphism*:
 
 ```haskell
-data Branch = Left | Right
-
-type family Sum (v :: Branch) (a :: k) (b :: k) :: k where
-  Sum Left  l r = l
-  Sum Right l r = r
+data Product (a :: k0) (b :: k1)
+Prelude> :k Product A C
+Product A C :: *
 ```
 
 Let's see what happen:
@@ -350,19 +348,19 @@ Our ``Sum`` type works again:
 Prelude> :kind! Sum Left (Const A) C
 Sum Left (Const A) C :: * -> *
 = Const A
-```
+```TODO
 
 ### Flip: change the order
-We are also able to change the order of any ``Sum`` type:
+We are also able to change the order of any ``Product`` type:
 ```haskell
 type Flip t a b = t b a
 ```
 
-Applied to ``Sum``:
+Applied to ``Product``:
 ```haskell
-Prelude> :kind! Flip (Sum Right) A B
-Flip (Sum Right) A B :: *
-= A
+Prelude> :kind! Flip Product A B
+Flip Product A B :: *
+= Product B A
 ```
 
 #### Currying and partial application
