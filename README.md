@@ -226,7 +226,7 @@ Right C :: Sum k (* -> *)
 
 #### Sorts and Kind polymorphism
 Every *Kind* have the same *Sort* named *BOX*, a *Sort* is a type of *Kind*.
-All the Kinds are not equals.
+All the *Kinds* are not equals.
 
 We can't use a type of a Kind when an other is expected:
 ```haskell
