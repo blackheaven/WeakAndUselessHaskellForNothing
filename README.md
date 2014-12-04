@@ -160,13 +160,13 @@ then enforce it at *type family* level.
 To create a new *Kind*, we define a value-level
 [Algebraic data type](#algebraic-data-types) with two values:
 ```haskell
-data Bool = True | False
+data Boolean = True | False
 ```
 
 We indicate the *Kind* of each parametric type of the *type family* and leave
 the rest unchanged:
 ```haskell
-type family And (a :: Bool) (b :: Bool) :: Bool where
+type family And (a :: Boolean) (b :: Boolean) :: Boolean where
   And True  d     = d
   And False c     = False
 ```
@@ -177,21 +177,21 @@ called *constructors*, at type-level.
 We are now only able to manipulate ``Booleans`` with this *type family*:
 ```haskell
 Prelude> :kind! And True True
-And True True :: Bool
+And True True :: Boolean
 = 'True
 Prelude> :kind! And True False
-And True False :: Bool
+And True False :: Boolean
 = 'False
 Prelude> :kind! And False True
-And False True :: Bool
+And False True :: Boolean
 = 'False
 Prelude> :kind! And False A
 
-    The second argument of ‘And’ should have kind ‘Bool’,
+    The second argument of ‘And’ should have kind ‘Boolean’,
       but ‘A’ has kind ‘*’
     In a type in a GHCi command: And False A
 ```
-``Bool`` is a new *Kind*, as ``*`` and ``* -> *``and ``Left`` and ``Right`` are new types.
+``Boolean`` is a new *Kind*, as ``*`` and ``* -> *``and ``Left`` and ``Right`` are new types.
 It's called *types promotion*.
 
 ## Algebraic data-types
