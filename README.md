@@ -301,15 +301,19 @@ This one avoid the creation a new *Kind* and of new types, it decreases
 type-safety but improves the reusability.
 
 ## Parametric types manipulation
-Our [``Sum``](#algebraic-data-types) type forces its types to have the same
-*Kind*:
-```haskell
-Prelude> :kind! Sum Left A C
+We represent *type application* like this:
 
-    Expecting one more argument to ‘C’
-    The third argument of ‘Sum’ should have kind ‘*’,
-      but ‘C’ has kind ‘* -> *’
-    In a type in a GHCi command: Sum Left A C
+```haskell
+type Application t a = t a
+```
+
+Its first argument must be ``* -> *`` *Kinded*:
+```haskell
+Prelude> :kind! Application A A
+
+    The first argument of ‘Application’ should have kind ‘* -> *’,
+      but ‘A’ has kind ‘*’
+    In a type in a GHCi command: Application A A
 ```
 
 ### Const: add one
@@ -318,12 +322,12 @@ We can add a parametric just to match the expected *Kind* and do nothing with it
 type Const t a = t
 ```
 
-Our ``Sum`` type works again:
+Our ``Application`` type works again:
 ```haskell
-Prelude> :kind! Sum Left (Const A) C
-Sum Left (Const A) C :: * -> *
-= Const A
-```TODO
+Prelude> :kind! Application (Const A) A
+Application (Const A) A :: *
+= A
+```
 
 ### Flip: change the order
 We are also able to change the order of any ``Product`` type:
