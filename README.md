@@ -120,7 +120,7 @@ MapSnd E (Double E A) (D A) :: *
 
 ```
 
-*Type families* allow us to do operations on types, such as comparisons, called *pattern matching*.
+*Closed type families* allow us to do operations on types, such as comparisons, called *pattern matching*.
 Here is an implementation of the ``Boolean`` operator ``And``:
 ```haskell
 data True
@@ -155,7 +155,6 @@ And True A :: *
 
 We need to create a new *Kind* which only holds ``True`` and ``False`` and
 enforce it at *type family* level.
-then enforce it at *type family* level.
 
 To create a new *Kind*, we define a value-level
 [Algebraic data type](#algebraic-data-types) with two values:
@@ -174,7 +173,7 @@ type family And (a :: Boolean) (b :: Boolean) :: Boolean where
 We are able to use [Algebraic data type](#algebraic-data-types) values, also
 called *constructors*, at type-level.
 
-We are now only able to manipulate ``Booleans`` with this *type family*:
+We are now only able to manipulate ``Booleans`` with this *closed type family*:
 ```haskell
 Prelude> :kind! And True True
 And True True :: Boolean
