@@ -13,7 +13,7 @@ Types must not represent outlier values.
 For example, the type ``Integer`` represents all the whole numbers but not the real numbers or strings or graphs, or emails, etc.
 
 Types must **solely** represent meaningful values, not more, not less.
-If you create an ``Email`` type, it should only hold a well-formed Email, not any Strings supposed to be an Email.
+If we create an ``Email`` type, it should only hold a well-formed Email, not any Strings supposed to be an Email.
 
 ### Types' genesis
 
@@ -343,7 +343,7 @@ Flip Product A B :: *
 ```
 
 #### Currying and partial application
-Each time you apply a type to a parameterized type its
+Each time we apply a type to a parameterized type its
 [*Kind* changes](#kinds-of-types-and-kinds).
 A parameterized type take only one parametric type and generate either a
 concrete type or an other parameterized type.
