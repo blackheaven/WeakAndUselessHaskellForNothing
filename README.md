@@ -287,18 +287,14 @@ Product (Sum Unit (Sum Unit Unit)) (Sum Unit Unit)
 ## Maybe: ability to (not) have a type
 The possibility to don't have a type is represented by ``Maybe``:
 ```haskell
-data IsMaybe = Just | Nothing
-
-type family Maybe v a where
-  Maybe Just    x = x
-  Maybe Nothing x = Void
+data Maybe a = Nothing | Just a
 ```
 
-An alternative of this implementation is to use ``Product``:
+An alternative of this implementation is to use ``Sum``:
 ```haskell
-type Just = Right
-type Nothing = Left
-type Maybe v x = Product v Void x
+type Nothing = Left Void
+type Just a = Right a
+type Maybe a = Sum Void a
 ```
 
 This one avoid the creation a new *Kind* and of new types, it decreases
