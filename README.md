@@ -377,28 +377,52 @@ Parameterized types take an arbitrary number of various types.
 set of types.
 
 ### ``List``s
-#### Structure
 A list is a [``Sum``](#algebraic-data-types) type of a list-ending and
 a [``Product``](#algebraic-data-types) type of an element and an other list,
 the next element:
 ```haskell
 type Cons (e :: k1) (n :: k2) = Product e n
-type End = Void
+type Nil = Void
 
-Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) End))))
-Cons A (Cons B (Cons C (Cons D (Cons (E A) End)))) :: *
+Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil))))
+Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: *
 = Product
     A (Product B (Product C (Product D (Product (E A) Void))))
 ```
 
 An alternative with [``Maybe``](#algebraic-data-types):
 ```haskell
-type Cons e n = Maybe Just (Product e n)
-type End = Nothing
+type Cons e n = Just (Product e n)
+type Nil = Nothing
 
-Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) End))))
-Cons A (Cons B (Cons C (Cons D (Cons (E A) End)))) :: *
-= forall (k :: BOX) (k :: BOX) (k :: BOX) (k :: BOX).
-  Product
-    A (Product B (Product C (Product D (Product (E A) 'Nothing))))
+Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil))))
+Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: Maybe *
+= forall (k :: BOX).
+  'Just
+    (Product
+       A
+       ('Just
+          (Product
+             B
+             ('Just
+                (Product
+                   C ('Just (Product D ('Just (Product (E A) 'Nothing)))))))))
+```
+
+Our reference implementation:
+```haskell
+data List a = Nil | Cons a (List a)
+
+Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil))))
+Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: Maybe *
+= forall (k :: BOX).
+  'Just
+    (Product
+       A
+       ('Just
+          (Product
+             B
+             ('Just
+                (Product
+                   C ('Just (Product D ('Just (Product (E A) 'Nothing)))))))))
 ```
