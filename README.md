@@ -443,3 +443,52 @@ Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: Maybe *
 ```
 
 The value space is ``L = 1 + A * L``.
+
+### ``Tree``s
+A tree is a [``Sum``](#algebraic-data-types) type of a
+leaf and a [``Product``](#algebraic-data-types) type of a
+value and a [``Product``](#algebraic-data-types) type of
+two trees:
+```haskell
+type Node x l r = Product x (Product l r)
+type Tip = Void
+
+:kind! Node A (Node B (Node A Tip Tip) Tip) Tip
+Node A (Node B (Node A Tip Tip) Tip) Tip :: *
+= Product
+    A
+    (Product
+       (Product B (Product (Product A (Product Void Void)) Void)) Void)
+```
+
+An alternative with [``Maybe``](#algebraic-data-types):
+```haskell
+type Tree x l r = Maybe (Product x (Product l r))
+type Node (x :: k0) (l :: k1) (r :: k1) = Just (Product x (Product l r))
+type Tip = Nothing
+
+Prelude> :kind! Node A (Node B (Node A Tip Tip) Tip) Tip
+Node A (Node B (Node A Tip Tip) Tip) Tip :: Maybe *
+= forall (k :: BOX).
+  'Just
+    (Product
+       A
+       (Product
+          ('Just
+             (Product
+                B
+                (Product
+                   ('Just (Product A (Product 'Nothing 'Nothing))) 'Nothing)))
+          'Nothing))
+```
+
+Our reference implementation:
+```haskell
+data Tree a = Tip | Node a (Tree a) (Tree a)
+
+Prelude> :kind! Node A (Node B (Node A Tip Tip) Tip) Tip
+Node A (Node B (Node A Tip Tip) Tip) Tip :: Tree *
+= 'Node A ('Node B ('Node A 'Tip 'Tip) 'Tip) 'Tip
+```
+
+The value space is ``L = 1 + A * L²``.
