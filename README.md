@@ -399,10 +399,12 @@ the next element:
 type Cons (e :: k1) (n :: k2) = Product e n
 type Nil = Void
 
-Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil))))
-Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: *
+Prelude> :kind! Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil))))
+Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil)))) :: *
 = Product
-    A (Product B (Product C (Product D (Product (E A) Void))))
+    A
+    (Product
+       B (Product (C A) (Product (D A B) (Product (E A B) Void)))
 ```
 
 An alternative with [``Maybe``](#algebraic-data-types):
@@ -410,8 +412,9 @@ An alternative with [``Maybe``](#algebraic-data-types):
 type Cons e n = Just (Product e n)
 type Nil = Nothing
 
-Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil))))
-Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: Maybe *
+Prelude> :kind! Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil))))
+Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil)))) :: Maybe
+                                                                    *
 = forall (k :: BOX).
   'Just
     (Product
@@ -421,25 +424,18 @@ Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: Maybe *
              B
              ('Just
                 (Product
-                   C ('Just (Product D ('Just (Product (E A) 'Nothing)))))))))
+                   (C A)
+                   ('Just (Product (D A B) ('Just (Product (E A B) 'Nothing)))))))))
 ```
 
 Our reference implementation:
 ```haskell
 data List a = Nil | Cons a (List a)
 
-Prelude> :kind! Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil))))
-Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: Maybe *
-= forall (k :: BOX).
-  'Just
-    (Product
-       A
-       ('Just
-          (Product
-             B
-             ('Just
-                (Product
-                   C ('Just (Product D ('Just (Product (E A) 'Nothing)))))))))
+Prelude> :kind! Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil))))
+Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil)))) :: List *
+= 'Cons
+    A ('Cons B ('Cons (C A) ('Cons (D A B) ('Cons (E A B) 'Nil))))
 ```
 
 The value space is ``L = 1 + A * L``.
