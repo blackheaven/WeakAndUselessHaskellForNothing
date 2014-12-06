@@ -208,7 +208,7 @@ data Sum a b = Left a | Right b
 ```
 ``Product`` is often called ``(,)`` and ``Sum`` is often called ``Either``.
 ``Product`` is a cartesian product of spaces.
-``Sum`` is a new *Kind*.
+``Sum`` is a new *Kind* using the *type promotion*.
 Let's try:
 
 ```haskell
@@ -221,6 +221,21 @@ Right B :: Sum k *
 Prelude> :kind! Right C
 Right C :: Sum k (* -> *)
 = forall (k :: BOX). 'Right C
+```
+
+The compiler infers *Kinds* from from used parametric types.
+When ``Left`` is used only the first parametric type is used so the second stay
+to ``k``.
+
+*Promoted types* are prefixed by a ``'``, this is useful when a constructor
+shares the same name of its type:
+```haskell
+data Unit = Unit
+
+Prelude> :k Unit
+Unit :: *
+Prelude> :k 'Unit
+'Unit :: Unit'
 ```
 
 #### Sorts and Kind polymorphism
