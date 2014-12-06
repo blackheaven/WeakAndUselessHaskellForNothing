@@ -441,3 +441,5 @@ Cons A (Cons B (Cons C (Cons D (Cons (E A) Nil)))) :: Maybe *
                 (Product
                    C ('Just (Product D ('Just (Product (E A) 'Nothing)))))))))
 ```
+
+The value space is ``L = 1 + A * L``.
