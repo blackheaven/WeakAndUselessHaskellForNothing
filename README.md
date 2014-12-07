@@ -498,3 +498,50 @@ Node A (Node B (Node A Tip Tip) Tip) Tip :: Tree *
 ```
 
 The value space is ``L = 1 + A * L²``.
+
+### ``Zipper``s
+``Zipper``s are a kind of data structures that track traversing:
+```haskell
+data Zipper a = Zipper [a] a [a]
+```
+
+It supports forward and backward traversing:
+```haskell
+type family ShiftLeft a where
+  ShiftLeft ('Zipper (x ': xs) y ys) = 'Zipper xs x (y ': ys)
+
+type family ShiftRight a where
+  ShiftRight ('Zipper xs x (y ': ys)) = 'Zipper (x ': xs) y ys
+
+Prelude> :kind! 'Zipper '[A, B, C A] (D A B) '[E A B]
+'Zipper '[A, B, C A] (D A B) '[E A B] :: Zipper *
+= 'Zipper '[A, B, C A] (D A B) '[E A B]
+Prelude> :kind! ShiftLeft ('Zipper '[A, B, C A] (D A B) '[E A B])
+ShiftLeft ('Zipper '[A, B, C A] (D A B) '[E A B]) :: Zipper *
+= 'Zipper '[B, C A] A '[D A B, E A B]
+Prelude> :kind! ShiftLeft (ShiftLeft ('Zipper '[A, B, C A] (D A B) '[E A B]))
+ShiftLeft (ShiftLeft ('Zipper '[A, B, C A] (D A B) '[E A B])) :: Zipper *
+= 'Zipper '[C A] B '[A, D A B, E A B]
+Prelude> :kind! ShiftLeft (ShiftRight ('Zipper '[A, B, C A] (D A B) '[E A B]))
+ShiftLeft (ShiftRight ('Zipper '[A, B, C A] (D A B) '[E A B])) :: Zipper *
+= 'Zipper '[A, B, C A] (D A B) '[E A B]
+```
+
+``Zipper``s can be defined with [Algebraic data type](#algebraic-data-types):
+```haskell
+*Main> :kind! Zipper '[A, B, C A] (D A B) '[E A B]
+Zipper '[A, B, C A] (D A B) '[E A B] :: *
+= Product (D A B) (Product '[A, B, C A] '[E A B])
+*Main> :kind! ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B])
+ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B]) :: *
+= Product A (Product '[B, C A] '[D A B, E A B])
+*Main> :kind! ShiftLeft (ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B]))
+ShiftLeft (ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B])) :: *
+= Product B (Product '[C A] '[A, D A B, E A B])
+*Main> :kind! ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B])
+ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B]) :: *
+= Product (E A B) (Product '[D A B, A, B, C A] '[])
+*Main> :kind! ShiftLeft (ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B]))
+ShiftLeft (ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B])) :: *
+= Product (D A B) (Product '[A, B, C A] '[E A B])
+```
