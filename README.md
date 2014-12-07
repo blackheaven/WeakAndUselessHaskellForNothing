@@ -545,3 +545,52 @@ ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B]) :: *
 ShiftLeft (ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B])) :: *
 = Product (D A B) (Product '[A, B, C A] '[E A B])
 ```
+
+### Isomorphisms
+
+*Morphisms* are ways to transform expressions into others expressions.
+At the type level they can be represented like this:
+```haskell
+data A
+data B
+data D a b
+data E a b
+
+type family Morphism (a :: k0) (b :: k1) :: k1
+type instance Morphism t t = t
+
+type instance Morphism A B = B
+type instance Morphism B A = A
+
+type instance Morphism D E = E
+```
+
+We have used *opened type families* because there is not a closed set of
+*morphisms.*
+```haskell
+Prelude> :kind! Morphism A B
+Morphism A B :: *
+= B
+Prelude> :kind! Isomorphism B
+A
+Isomorphism B A :: *
+= B
+Prelude> :kind! Morphism D E A
+B
+Morphism D E A B :: *
+= forall (k :: BOX) (k :: BOX). E A B
+```
+
+An *isomorphism* between two expressions is the existence of a *morphism*
+from ``A`` to ``B`` and from ``B`` to ``A`` such that, if composed, give the
+same expression. It is also called *Identity morphism*:
+```haskell
+type Isomorphism (a :: k) (b :: k) = Morphism a (Morphism b a)
+
+Prelude> :kind! Morphism B (Morphism A B)
+Morphism B (Morphism A B) :: *
+= B
+Prelude> :kind!  Isomorphism B A
+Isomorphism B A :: *
+= B
+```
