@@ -440,6 +440,16 @@ Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil)))) :: List *
 
 The value space is ``L = 1 + A * L``.
 
+For readability purposes we will use these notations:
+```haskell
+Prelude> :kind! A ': B ': (C A) ': (D A B) ': (E A B) ': '[]
+A ': B ': (C A) ': (D A B) ': (E A B) ': '[] :: [*]
+= '[A, B, C A, D A B, E A B]
+Prelude> :kind! '[A, B, C A, D A B, E A B]
+'[A, B, C A, D A B, E A B] :: [*]
+= '[A, B, C A, D A B, E A B]
+```
+
 ### ``Tree``s
 A tree is a [``Sum``](#algebraic-data-types) type of a
 leaf and a [``Product``](#algebraic-data-types) type of a
