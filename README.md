@@ -529,19 +529,19 @@ ShiftLeft (ShiftRight ('Zipper '[A, B, C A] (D A B) '[E A B])) :: Zipper *
 
 ``Zipper``s can be defined with [Algebraic data type](#algebraic-data-types):
 ```haskell
-*Main> :kind! Zipper '[A, B, C A] (D A B) '[E A B]
+Prelude> :kind! Zipper '[A, B, C A] (D A B) '[E A B]
 Zipper '[A, B, C A] (D A B) '[E A B] :: *
 = Product (D A B) (Product '[A, B, C A] '[E A B])
-*Main> :kind! ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B])
+Prelude> :kind! ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B])
 ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B]) :: *
 = Product A (Product '[B, C A] '[D A B, E A B])
-*Main> :kind! ShiftLeft (ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B]))
+Prelude> :kind! ShiftLeft (ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B]))
 ShiftLeft (ShiftLeft (Zipper '[A, B, C A] (D A B) '[E A B])) :: *
 = Product B (Product '[C A] '[A, D A B, E A B])
-*Main> :kind! ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B])
+Prelude> :kind! ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B])
 ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B]) :: *
 = Product (E A B) (Product '[D A B, A, B, C A] '[])
-*Main> :kind! ShiftLeft (ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B]))
+Prelude> :kind! ShiftLeft (ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B]))
 ShiftLeft (ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B])) :: *
 = Product (D A B) (Product '[A, B, C A] '[E A B])
 ```
