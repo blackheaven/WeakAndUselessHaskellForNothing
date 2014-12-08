@@ -597,3 +597,22 @@ Isomorphism B A :: *
 
 Here's an attempt to show the *isomorphisms* between the different implementations of
 the [indexed structures](#indexed-structures).
+
+#### ``List``s
+```haskell
+type Cons1 (e :: k1) (n :: k2) = Product e n
+type Nil1 = Void
+
+type Cons2 e n = Just (Product e n)
+type Nil2 = Nothing
+
+data List3 a = Nil3 | Cons3 a (List3 a)
+
+type family List1_List2 a where
+  List1_List2 (Cons1 a b) = Cons2 a (List1_List2 b)
+  List1_List2 Nil1 = Nil2
+
+type family List2_List1 a where
+  List2_List1 (Cons2 a b) = Cons1 a (List2_List1 b)
+  List2_List1 Nil2 = Nil1
+```
