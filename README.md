@@ -594,3 +594,6 @@ Prelude> :kind!  Isomorphism B A
 Isomorphism B A :: *
 = B
 ```
+
+Here's an attempt to show the *isomorphisms* between the different implementations of
+the [indexed structures](#indexed-structures).
