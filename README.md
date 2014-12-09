@@ -615,4 +615,15 @@ type family List1_List2 a where
 type family List2_List1 a where
   List2_List1 (Cons2 a b) = Cons1 a (List2_List1 b)
   List2_List1 Nil2 = Nil1
+
+type family List2_List3 a where
+  List2_List3 (Cons2 a b) = Cons3 a (List2_List3 b)
+  List2_List3 Nil2 = Nil3
+
+type family List3_List2 a where
+  List3_List2 (Cons3 a b) = Cons2 a (List3_List2 b)
+  List3_List2 Nil3 = Nil2
+
+type List1_List3 a = List2_List3 (List1_List2 a)
+type List3_List1 a = List2_List1 (List3_List2 a)
 ```
