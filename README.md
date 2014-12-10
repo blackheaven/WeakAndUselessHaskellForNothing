@@ -627,3 +627,34 @@ type family List3_List2 a where
 type List1_List3 a = List2_List3 (List1_List2 a)
 type List3_List1 a = List2_List1 (List3_List2 a)
 ```
+
+#### ``Tree``s
+```haskell
+type Node1 x l r = Product x (Product l r)
+type Tip1 = Void
+
+type Tree2 x l r = Maybe (Product x (Product l r))
+type Node2 (x :: k0) (l :: k1) (r :: k1) = Just (Product x (Product l r))
+type Tip2 = Nothing
+
+data Tree3 a = Tip3 | Node3 a (Tree3 a) (Tree3 a)
+
+type family Tree1_Tree2 x where
+  Tree1_Tree2 (Node1 x l r) = Node2 x (Tree1_Tree2 l) (Tree1_Tree2 r)
+  Tree1_Tree2 Tip1 = Tip2
+
+type family Tree2_Tree1 x where
+  Tree2_Tree1 (Node2 x l r) = Node1 x (Tree2_Tree1 l) (Tree2_Tree1 r)
+  Tree2_Tree1 Tip2 = Tip1
+
+type family Tree2_Tree3 x where
+  Tree2_Tree3 (Node2 x l r) = Node3 x (Tree2_Tree3 l) (Tree2_Tree3 r)
+  Tree2_Tree3 Tip2 = Tip3
+
+type family Tree3_Tree2 x where
+  Tree3_Tree2 (Node3 x l r) = Node2 x (Tree3_Tree2 l) (Tree3_Tree2 r)
+  Tree3_Tree2 Tip3 = Tip2
+
+type Tree1_Tree3 x = Tree2_Tree3 (Tree1_Tree2 x)
+type Tree3_Tree1 x = Tree2_Tree1 (Tree3_Tree2 x)
+```
