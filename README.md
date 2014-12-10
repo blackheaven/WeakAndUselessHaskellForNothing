@@ -658,3 +658,38 @@ type family Tree3_Tree2 x where
 type Tree1_Tree3 x = Tree2_Tree3 (Tree1_Tree2 x)
 type Tree3_Tree1 x = Tree2_Tree1 (Tree3_Tree2 x)
 ```
+
+#### Fix
+There a common pattern between these types: they are composed of a recursion
+part and a "data" part.
+The recursion part is called *Fix* point and can be defined as this:
+```haskell
+newtype Fix f a = Fix (f (Fix f a))
+```
+
+The data part is always or a terminaison term or the value which is
+[isomorphic](#isomorphisms) to ``Maybe``:
+```haskell
+type family SN x where
+  SN ('Left Void) = 'Nothing
+  SN ('Right a) = 'Just a
+
+type family NS x where
+  NS 'Nothing = 'Left Void
+  NS ('Just a) = 'Right a
+```
+
+This allow us to rewrite [``List``](lists-isomorphisms) and
+[``Tree``](#trees-isomorphisms) like that:
+```haskell
+newtype StructureF f a n = StructureF (Maybe (f a n))
+
+type Cons a n = 'Fix ('Just (Product a n))
+type Nil = 'Fix 'Nothing
+type List a = Fix (StructureF Product a)
+
+type Node a n = 'Fix ('Just (Product a n))
+type Tip = 'Fix 'Nothing
+newtype NodeF a n = NodeF (Product a (Product n n))
+type Tree a = Fix (StructureF NodeF a)
+```
