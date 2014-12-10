@@ -628,7 +628,7 @@ type List1_List3 a = List2_List3 (List1_List2 a)
 type List3_List1 a = List2_List1 (List3_List2 a)
 ```
 
-#### ``Tree``s
+#### ``Tree``'s isomorphisms
 ```haskell
 type Node1 x l r = Product x (Product l r)
 type Tip1 = Void
