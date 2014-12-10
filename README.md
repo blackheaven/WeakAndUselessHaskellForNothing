@@ -598,7 +598,7 @@ Isomorphism B A :: *
 Here's an attempt to show the *isomorphisms* between the different implementations of
 the [indexed structures](#indexed-structures).
 
-#### ``List``s
+#### ``List``'s isomorphisms
 ```haskell
 type Cons1 (e :: k1) (n :: k2) = Product e n
 type Nil1 = Void
