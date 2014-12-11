@@ -667,6 +667,13 @@ The recursion part is called *Fix* point and can be defined as this:
 newtype Fix f a = Fix (f (Fix f a))
 ```
 
+Due to the polymorphic nature of it's constructor, ``Fix`` is not promotable
+to the type-level.
+We are forced to declare a weaker type [isomorphic](#isomorphisms) to ``List``:
+```haskell
+data Fix (f :: k1 -> k0) (n :: k1)
+```
+
 The data part is always or a terminaison term or the value which is
 [isomorphic](#isomorphisms) to ``Maybe``:
 ```haskell
@@ -679,17 +686,43 @@ type family NS x where
   NS ('Just a) = 'Right a
 ```
 
+We have abstracted this part like this:
+```haskell
+data Proxy (a :: k) = Proxy
+newtype StructureF f a n = StructureF (Proxy ('Just (f a n)))
+```
+``newtype`` waits a type of *Kind* ``*`` and ``'Just`` has the *Kind* ``Maybe k``.
+We use ``Proxy`` to transform any *Kind* into a ``*`` *Kind*.
+
 This allow us to rewrite [``List``](lists-isomorphisms) and
 [``Tree``](#trees-isomorphisms) like that:
 ```haskell
-newtype StructureF f a n = StructureF (Maybe (f a n))
+data Const (t :: k0) (a :: k1)
 
-type Cons a n = 'Fix ('Just (Product a n))
-type Nil = 'Fix 'Nothing
-type List a = Fix (StructureF Product a)
+type Cons a n = Fix (StructureF Product a) n
+type Nil = Fix (Const 'Nothing) 'Nothing
 
-type Node a n = 'Fix ('Just (Product a n))
-type Tip = 'Fix 'Nothing
 newtype NodeF a n = NodeF (Product a (Product n n))
-type Tree a = Fix (StructureF NodeF a)
+type Node a n = Fix (StructureF Product a) n
+type Tip = Fix (Const 'Nothing) 'Nothing
+
+*Main> :kind! Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil))))
+Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil)))) :: *
+= Fix
+    (StructureF Product A)
+    (Fix
+       (StructureF Product B)
+       (Fix
+          (StructureF Product (C A))
+          (Fix
+             (StructureF Product (D A B))
+             (Fix
+                (StructureF Product (E A B)) (Fix (Const 'Nothing) 'Nothing)))))
+*Main> :kind! Node A (Node B (Node A Tip))
+Node A (Node B (Node A Tip)) :: *
+= Fix
+    (StructureF Product A)
+    (Fix
+       (StructureF Product B)
+       (Fix (StructureF Product A) (Fix (Const 'Nothing) 'Nothing)))
 ```
