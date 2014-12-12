@@ -726,3 +726,31 @@ Node A (Node B (Node A Tip)) :: *
        (StructureF Product B)
        (Fix (StructureF Product A) (Fix (Const 'Nothing) 'Nothing)))
 ```
+
+##### Learning how to count: Peano numbers
+``Integer``s don't exist àt type-level.
+To surpass that limitation, we can use the Peano numbers.
+They are generally defined like this:
+```haskell
+data Peano = Zero | Succ Peano
+
+Prelude> :kind! Zero
+Zero :: Peano
+= 'Zero
+Prelude> :kind! Succ (Succ Zero)
+Succ (Succ Zero) :: Peano
+= 'Succ ('Succ 'Zero)
+```
+
+Using [``Fix`` point](#fix), they are defined as following:
+```haskell
+type Succ n = Fix 'Just n
+type Zero = Fix (Const 'Nothing) 'Nothing
+
+Prelude> :kind! Zero
+Zero :: *
+= Fix (Const 'Nothing) 'Nothing
+Prelude> :kind! Succ (Succ Zero)
+Succ (Succ Zero) :: *
+= Fix 'Just (Fix 'Just (Fix (Const 'Nothing) 'Nothing))
+```
