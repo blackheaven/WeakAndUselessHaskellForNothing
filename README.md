@@ -706,7 +706,7 @@ newtype NodeF a n = NodeF (Product a (Product n n))
 type Node a n = Fix (StructureF Product a) n
 type Tip = Fix (Const 'Nothing) 'Nothing
 
-*Main> :kind! Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil))))
+Prelude> :kind! Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil))))
 Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil)))) :: *
 = Fix
     (StructureF Product A)
@@ -718,7 +718,7 @@ Cons A (Cons B (Cons (C A) (Cons (D A B) (Cons (E A B) Nil)))) :: *
              (StructureF Product (D A B))
              (Fix
                 (StructureF Product (E A B)) (Fix (Const 'Nothing) 'Nothing)))))
-*Main> :kind! Node A (Node B (Node A Tip))
+Prelude> :kind! Node A (Node B (Node A Tip))
 Node A (Node B (Node A Tip)) :: *
 = Fix
     (StructureF Product A)
