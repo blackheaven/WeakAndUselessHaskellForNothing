@@ -754,3 +754,8 @@ Prelude> :kind! Succ (Succ Zero)
 Succ (Succ Zero) :: *
 = Fix 'Just (Fix 'Just (Fix (Const 'Nothing) 'Nothing))
 ```
+
+## Indexed computations
+Having an unique recursion abstraction enable to define a set of computation
+around it and apply them to all the abstractions we are able to
+represent with this abstraction.
