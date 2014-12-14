@@ -759,3 +759,15 @@ Succ (Succ Zero) :: *
 Having an unique recursion abstraction enable to define a set of computation
 around it and apply them to all the abstractions we are able to
 represent with this abstraction.
+
+### ``Functor``: keep the container, change the content
+A ``Functor`` is a ``Map`` function that take a container and and a morphism that
+changes its content.
+```haskell
+type family MapFix (f :: (k0 -> k1) -> k0 -> k1) (a :: k2) :: * where
+  MapFix f (Fix a n) = Fix (f a) (MapFix f n)
+
+type family MapMaybe (f :: k0 -> k1) (a :: Maybe k0) :: Maybe k1 where
+  MapMaybe f ('Just a) = 'Just (f a)
+  MapMaybe f 'Nothing = 'Nothing
+```
