@@ -65,7 +65,7 @@ E A :: * -> *
 Prelude> :k E A A
 E A A :: *
 ```
-*Applying a type*, by adding a type after an other, changes the *Kind* which
+*Applying a type*, by adding a type after another, changes the *Kind* which
 needs of one less parameter.
 Applying two types ``A`` to ``E`` make it a concrete type.
 
@@ -94,7 +94,7 @@ E (C A) (D A (E A A)) :: *
 ### Types manipulation
 Type expressions are sometimes complex and deface type's intent.
 
-*Types functions* create an other way to call the same type expression.
+*Types functions* create another way to call the same type expression.
 Spaces and types remain unchanged.
 
 Here are some examples:
@@ -242,7 +242,7 @@ Prelude> :k 'Unit
 Every *Kind* have the same *Sort* named *BOX*, a *Sort* is a type of *Kind*.
 All the *Kinds* are not equals.
 
-We can't use a type of a *Kind* when an other is expected:
+We can't use a type of a *Kind* when another is expected:
 ```haskell
 Prelude> :k Product
 Product :: * -> * -> *
@@ -361,7 +361,7 @@ Flip Product A B :: *
 Each time we apply a type to a parameterized type its
 [*Kind* changes](#kinds-of-types-and-kinds).
 A parameterized type take only one parametric type and generate either a
-concrete type or an other parameterized type.
+concrete type or another parameterized type.
 Multi-parameterized types are a syntactic sugar:
 ```haskell
 Prelude> :k D
@@ -393,7 +393,7 @@ set of types.
 
 ### ``List``s
 A list is a [``Sum``](#algebraic-data-types) type of a list-ending and
-a [``Product``](#algebraic-data-types) type of an element and an other list,
+a [``Product``](#algebraic-data-types) type of an element and another list,
 the next element:
 ```haskell
 type Cons (e :: k1) (n :: k2) = Product e n
