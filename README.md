@@ -772,8 +772,3 @@ type family MapMaybe (f :: k0 -> k1) (a :: Maybe k0) :: Maybe k1 where
   MapMaybe f 'Nothing = 'Nothing
 ```
 
-### Foldable: destroy a data-type and get another
-We define a way to get a new data-type from the traversing of another:
-```haskell
-type family Fold (f :: k0 -> k1 -> k1) (i :: k1) (d :: k0 -> k3) ::
-```
