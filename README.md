@@ -556,13 +556,19 @@ data B
 data D a b
 data E a b
 
-type family Morphism (a :: k0) (b :: k1) :: k1
-type instance Morphism t t = t
+type family Morphism (a :: k0) (b :: k1) (c :: k2) :: k3
+type instance Morphism t t t = t
 
-type instance Morphism A B = B
-type instance Morphism B A = A
+type instance Morphism A B A = B
+type instance Morphism B A A = A
 
-type instance Morphism D E = E
+type instance Morphism D E D = E
+
+type instance Morphism ('Left Void) 'Nothing ('Left Void) = 'Nothing
+type instance Morphism 'Right 'Just ('Right a) = 'Just a
+
+type instance Morphism 'Nothing ('Left Void)'Nothing = 'Left Void
+type instance Morphism 'Just 'Right ('Just a)= 'Right a
 ```
 
 We have used *opened type families* because there is not a closed set of
@@ -585,7 +591,8 @@ An *isomorphism* between two expressions is the existence of a *morphism*
 from ``A`` to ``B`` and from ``B`` to ``A`` such that, if composed, give the
 same expression. It is also called *Identity morphism*:
 ```haskell
-type Isomorphism (a :: k) (b :: k) = Morphism a (Morphism b a)
+type Isomorphism (a :: k0) (b :: k1) (v :: k2) = Morphism a b (Morphism b a v)
+type IsIsomorphic (a :: k0) (b :: k1) (v :: k2) = Isomorphism a b v ~ v
 
 Prelude> :kind! Morphism B (Morphism A B)
 Morphism B (Morphism A B) :: *
