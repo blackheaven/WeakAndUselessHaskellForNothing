@@ -560,9 +560,9 @@ type family Morphism (a :: k0) (b :: k1) (c :: k2) :: k3
 type instance Morphism t t t = t
 
 type instance Morphism A B A = B
-type instance Morphism B A A = A
+type instance Morphism B A B = A
 
-type instance Morphism D E D = E
+type instance Morphism D E (D a b) = E a b
 
 type instance Morphism ('Left Void) 'Nothing ('Left Void) = 'Nothing
 type instance Morphism 'Right 'Just ('Right a) = 'Just a
