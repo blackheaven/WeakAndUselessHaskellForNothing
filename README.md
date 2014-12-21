@@ -547,7 +547,6 @@ ShiftLeft (ShiftRight (Zipper '[A, B, C A] (D A B) '[E A B])) :: *
 ```
 
 ### Isomorphisms
-
 *Morphisms* are ways to transform expressions into others expressions.
 At the type level they can be represented like this:
 ```haskell
