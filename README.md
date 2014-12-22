@@ -589,7 +589,6 @@ from ``A`` to ``B`` and from ``B`` to ``A`` such that, if composed, give the
 same expression. It is also called *Identity morphism*:
 ```haskell
 type Isomorphism (a :: k0) (b :: k1) (v :: k2) = Morphism b a (Morphism a b v)
-type IsIsomorphic (a :: k0) (b :: k1) (v :: k2) = Isomorphism a b v ~ v
 
 Prelude> :kind! Morphism B (Morphism A B)
 Morphism B (Morphism A B) :: *
