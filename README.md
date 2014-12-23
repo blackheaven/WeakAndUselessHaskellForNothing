@@ -781,3 +781,5 @@ type family ZipWith (f :: k0 -> k1 -> k2) (a :: k0) (b :: k1) :: k2 where
   ZipWith f (Fix a (Fix x xs)) (Fix b (Fix y ys)) = Fix (f a b) (ZipWith f (Fix x xs) (Fix y ys))
   ZipWith f (Fix a na) (Fix b nb) = Fix (f a b) 'Nothing
 ```
+
+## From value-level to type-level
