@@ -783,4 +783,4 @@ type family ZipWith (f :: k0 -> k1 -> k2) (a :: k0) (b :: k1) :: k2 where
 ```
 
 ## From value-level to type-level
-
+We will see to transform weak types into strong types.
